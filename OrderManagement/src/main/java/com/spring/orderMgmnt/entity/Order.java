@@ -18,30 +18,22 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-//	@Column(name = "customer_id")
-//	private String customerId;
-	
+
+	@Column(name = "product")
+	private String product;
+
 	@Column(name = "qty")
 	private int quantity;
-	
+
 	@Column(name = "amount")
 	private BigDecimal amount;
-	
+
 	@Column(name = "discount")
 	private BigDecimal discount;
-	
-	private Order() {}
-	
-	//BillPugh Singleton implementation
-	private static class SingletonHelper{
-		private static final Order INSTANCE = new Order();
-	}
-	
-	public static Order getInstance() {
-		return SingletonHelper.INSTANCE;
-	}
 
+	@Column(name = "discount_claimed")
+	private Boolean discountClaimed;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -49,14 +41,14 @@ public class Order {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public String getProduct() {
+		return product;
+	}
 
-//	public String getCustomerId() {
-//		return customerId;
-//	}
-//
-//	public void setCustomerId(String customerId) {
-//		this.customerId = customerId;
-//	}
+	public void setProduct(String product) {
+		this.product = product;
+	}
 
 	public int getQuantity() {
 		return quantity;
@@ -74,7 +66,33 @@ public class Order {
 		this.amount = amount;
 	}
 	
+	public BigDecimal getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(BigDecimal discount) {
+		this.discount = discount;
+	}
+	
+	public Boolean getDiscountClaimed() {
+		return discountClaimed;
+	}
+
+	public void setDiscountClaimed(Boolean discountClaimed) {
+		this.discountClaimed = discountClaimed;
+	}
+
 	@ManyToOne
+	@JoinColumn(name = "customer_id", referencedColumnName = "id")
 	public Customer customer;
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
 	
 }

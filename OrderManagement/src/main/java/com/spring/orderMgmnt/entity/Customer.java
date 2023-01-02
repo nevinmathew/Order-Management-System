@@ -78,6 +78,6 @@ public class Customer {
 		this.orders = orders;
 	}
 
-	@OneToMany
+	@OneToMany(mappedBy = "customer")
 	public List<Order> orders;
 }

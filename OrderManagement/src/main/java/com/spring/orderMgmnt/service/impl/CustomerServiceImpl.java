@@ -32,26 +32,35 @@ public class CustomerServiceImpl implements CustomerService {
 	public ResponseEntity<?> updateCustomer(Customer customer) {
 		try {
 			
-			if(!customerRepository.existsById(customer.getId())) {
+			String userTier = null;
+			
+			if (!customerRepository.existsById(customer.getId())) {
 				return ResponseEntity.ok("User not found");
 			}
-			
+
 			Customer cust = Customer.getInstance();
-			if(!customer.getName().isBlank() || customer.getName() != null)
-				cust.getName();
-			
-			if(customer.getNoOfOrders()>0 || customer.getNoOfOrders() != null)
-				cust.getNoOfOrders();
-			
-			if(!customer.getOrders().isEmpty() || customer.getOrders() != null)
-				cust.getOrders();
-			
-			if(!customer.getTier().isBlank() || customer.getTier() != null)
-				cust.getTier();
-			
+			if (!customer.getName().isBlank() || customer.getName() != null)
+				cust.setName(customer.getName());
+
+			if (customer.getNoOfOrders() > 0 || customer.getNoOfOrders() != null)
+				cust.setNoOfOrders(customer.getNoOfOrders());
+
+			if (!customer.getTier().isBlank() || customer.getTier() != null) {
+				if (customer.getNoOfOrders() >= 10 && customer.getNoOfOrders() < 20
+						&& !"Gold".equals(customer.getTier())) {
+					cust.setTier("Gold");
+					userTier = "You have been upgraded to Gold tier";
+				}
+				
+				if (customer.getNoOfOrders() >= 20 && !"Platinum".equals(customer.getTier())) {
+					cust.setTier("Platinum");
+					userTier = "You have been upgraded to Platinum tier";
+				}
+			}
+
 			customerRepository.save(cust);
-			
-			return ResponseEntity.ok("Customer updated");
+
+			return ResponseEntity.ok("Customer updated. "+userTier);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
