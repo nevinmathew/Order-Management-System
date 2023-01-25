@@ -19,3 +19,5 @@ This is a Spring boot application for an order management system that as the fol
   ● Since it is assumed that the customer has already made the full payment during creation of the order, this discount information has to be     kept safe by the application. We need to keep track of how much discount is given to which customer and for which order, so that customers      can claim money back later.
 
   ● Cron job to send emails to customers when they are approaching the gold/platinum barriers.
+
+  ● Swagger UI for the APIs
