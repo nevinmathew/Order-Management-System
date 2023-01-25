@@ -9,7 +9,9 @@ This is a Spring boot application for an order management system that as the fol
   ● Customers are categorised as regular, gold, platinum.
 
   ● By default, a customer is regular.
+  
     ○ Customer is promoted to gold when he has placed 10 orders
+    
     ○ Customer is promoted to platinum when he has placed 20 orders
 
   ● Gold tier customers get 10% discount, platinum tier customers get 20% discount.
