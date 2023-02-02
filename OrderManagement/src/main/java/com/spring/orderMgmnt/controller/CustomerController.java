@@ -16,7 +16,7 @@ import com.spring.orderMgmnt.entity.Customer;
 import com.spring.orderMgmnt.service.CustomerService;
 
 @RestController
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/v1/customer")
 public class CustomerController {
 	
 	@Autowired
