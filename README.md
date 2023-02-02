@@ -25,3 +25,5 @@ This is a Spring boot application for an order management system that as the fol
   ● Swagger UI for  API documentation and designing.
   
   ● Spring boot actuator for monitoring, gathering metrics, understanding traffic, and know the state of our database
+  
+  Swagger UI link: http://localhost:8080/swagger-ui/index.html
