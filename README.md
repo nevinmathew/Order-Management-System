@@ -21,9 +21,10 @@ This is a Spring boot application for an order management system that as the fol
   ● Since it is assumed that the customer has already made the full payment during creation of the order, this discount information has to be     kept safe by the application. We need to keep track of how much discount is given to which customer and for which order, so that customers      can claim money back later.
 
   ● Cron job to send emails to customers when they are approaching the gold/platinum barriers.
+  
+  ● Utilized the math library for calculations related to payment in theservice logic. 
 
-  ● Swagger UI for  API documentation and designing.
+  ● Swagger UI for  API documentation and designing. Link: http://localhost:8080/swagger-ui/index.html
   
   ● Spring boot actuator for monitoring, gathering metrics, understanding traffic, and know the state of our database
-  
-  Swagger UI link: http://localhost:8080/swagger-ui/index.html
+ 
