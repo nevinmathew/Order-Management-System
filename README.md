@@ -22,7 +22,7 @@ This is a Spring boot application for an order management system that as the fol
 
   ● Cron job to send emails to customers when they are approaching the gold/platinum barriers.
   
-  ● Utilized the math library for calculations related to payment in theservice logic. 
+  ● Utilized the math library for calculations related to payment in the service logic. 
 
   ● Swagger UI for  API documentation and designing. Link: http://localhost:8080/swagger-ui/index.html
   
