@@ -1,20 +1,22 @@
 package com.spring.orderMgmnt.service;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
 import com.spring.orderMgmnt.entity.Customer;
 
 public interface CustomerService {
 	
-	public ResponseEntity<?> createCustomer(Customer customer);
+	public String createCustomer(Customer customer);
 	
-	public ResponseEntity<?> updateCustomer(Customer customer);
+	public String updateCustomer(Customer customer);
 	
-	public ResponseEntity<?> getAllCustomer();
+	public List<Customer> getAllCustomer();
 	
-	public ResponseEntity<?> getCustomer(int id);
+	public Customer getCustomer(int id);
 	
-	public ResponseEntity<?> deleteCustomer(int id);
+	public String deleteCustomer(int id);
 	
 	public ResponseEntity<?> tierBarrierMailSender();
 

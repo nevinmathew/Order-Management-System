@@ -1,8 +1,13 @@
 package com.spring.orderMgmnt.service.impl;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.spring.orderMgmnt.entity.Customer;
@@ -23,76 +28,138 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private Executor asyncExecutor;
 
 	@Override
-	public ResponseEntity<?> createOrder(Order order) {
-		try {
-			if (order.getQuantity() > 0 && customerRepository.existsById(order.getCustomer().getId())) {
-				order.setDiscountClaimed(false);
-				orderRepository.save(order);
-		}
+	@Async("asyncExecutor")
+	public CompletableFuture<?> createOrder(Order order) {
+//		try {
+			return CompletableFuture.supplyAsync(() -> {
+	            if (order == null || order.getCustomer() == null) {
+	                return "Invalid order";
+	            }
+	            
+	            Optional<Customer> customer = customerRepository.findById(order.getCustomer().getId());
+	            if (order.getQuantity() <= 0 || !customer.isPresent()) {
+	                return "Invalid order details";
+	            }
 
-			Customer customer = customerRepository.findById(order.getCustomer().getId()).orElseGet(null);
-			int ordersNo = customer.getNoOfOrders();
-			customer.setNoOfOrders(++ordersNo);
-			customerService.updateCustomer(customer);
+                int ordersNo = customer.get().getNoOfOrders();
+                customer.get().setNoOfOrders(++ordersNo);
+                customerService.updateCustomer(customer.get());
 
-			return ResponseEntity.ok("Your order has been placed");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
+                return "Your order has been placed";
+	        }, asyncExecutor).exceptionally(e -> {
+	            e.printStackTrace();
+	            return "Order creation failed";
+	        });
+				
+//				CompletableFuture<?> future = new CompletableFuture<>();
+//				if (order.getQuantity() > 0 && customerRepository.existsById(order.getCustomer().getId())) {
+//					order.setDiscountClaimed(false);
+//				
+//					Thread.sleep(1000L);
+//					CompletableFuture.completedFuture(orderRepository.save(order));
+//				}
+//				
+//				Customer customer = customerRepository.findById(order.getCustomer().getId()).orElseGet(null);
+//				if (customer.getNoOfOrders() != null) {
+//					int ordersNo = customer.getNoOfOrders();
+//					customer.setNoOfOrders(++ordersNo);
+//				}
+//				customerService.updateCustomer(customer);
+				
+//				return CompletableFuture.runAsync(() -> {
+//		            Customer customer = customerRepository.findById(order.getCustomer().getId()).get();
+//		            if (customer != null) {
+//		                int ordersNo = customer.getNoOfOrders();
+//		                customer.setNoOfOrders(++ordersNo);
+//		                customerService.updateCustomer(customer);
+//		            } else {
+//		                throw new RuntimeException("Customer not found");
+//		            }
+//		        }).thenApplyAsync(
+//		            result -> new ResponseEntity<>("Your order has been placed", HttpStatus.CREATED)
+//		        );
+				
+//				return future.thenApply(result -> new ResponseEntity<>("Your order has been placed", HttpStatus.CREATED));
+//				return CompletableFuture.completedFuture(ResponseEntity.ok("Your order has been placed"));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			CompletableFuture<?> future = new CompletableFuture<>();
+//			return future.thenApply(result -> new ResponseEntity<>(null, HttpStatus.FORBIDDEN));
+//		}
 	}
 
 	@Override
-	public ResponseEntity<?> updateOrder(Order order) {
+	@Async("asyncExecutor")
+	public CompletableFuture<String> updateOrder(Order order) {
+		
 		try {
 			if (order.getQuantity() > 0 && orderRepository.existsById(order.getId())
-					&& customerRepository.existsById(order.getCustomer().getId()))
-				orderRepository.save(order);
-
-			return ResponseEntity.ok("Your order has been placed");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
-	}
-
-	@Override
-	public ResponseEntity<?> getOrder(int id) {
-		try {
-			if (!orderRepository.existsById(id)) {
-				return ResponseEntity.noContent().build();
+					&& customerRepository.existsById(order.getCustomer().getId())) {
+			
+				return CompletableFuture.supplyAsync(() -> {
+					orderRepository.save(order);
+					return "Your order has been updated";
+			}, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS, asyncExecutor));
+		
+		} else {
+			return CompletableFuture.completedFuture("Invalid order or customer");
 			}
-			return ResponseEntity.ok(orderRepository.findById(id));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+			throw new RuntimeException("Order update failed", e);
 		}
 	}
 
 	@Override
-	public ResponseEntity<?> getAllOrders() {
+	@Async("asyncExecutor")
+	public CompletableFuture<Order> getOrder(int id) {
+//		try {
+//			CompletableFuture<?> future = new CompletableFuture<>();
+//			if (!orderRepository.existsById(id)) {
+//				return future.thenApply(result -> new ResponseEntity<>(null, HttpStatus.NO_CONTENT));
+//			}
+//			Thread.sleep(1000L);
+//			return future.thenApply(result -> new ResponseEntity<>(orderRepository.findById(id), HttpStatus.CREATED));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			CompletableFuture<?> future = new CompletableFuture<>();
+//			return future.thenApply(result -> new ResponseEntity<>(null, HttpStatus.FORBIDDEN));
+//		}
 		try {
-			return ResponseEntity.ok(orderRepository.findAll());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
+	        if (id <= 0) {
+	            throw new IllegalArgumentException("Invalid order ID");
+	        }
+
+	        if (!orderRepository.existsById(id)) {
+	            throw new IllegalArgumentException("Order not found");
+	        }
+
+	        return CompletableFuture
+	        		.supplyAsync(() -> orderRepository.findById(id).get(), asyncExecutor)
+	                .orTimeout(1, TimeUnit.SECONDS);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("Order retrieval failed", e);
+	    }
 	}
 
 	@Override
-	public ResponseEntity<?> deleteOrder(int id) {
-		try {
+	public List<Order> getAllOrders() {
+			return orderRepository.findAll();
+	}
+
+	@Override
+	public String deleteOrder(int id) {
 			if (!orderRepository.existsById(id)) {
-				return ResponseEntity.noContent().build();
+				return "The order does not exist";
 			}
 			orderRepository.deleteById(id);
-			return ResponseEntity.ok("Your order has been deleted");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-		}
+			return "Your order has been deleted";
 	}
 
 }

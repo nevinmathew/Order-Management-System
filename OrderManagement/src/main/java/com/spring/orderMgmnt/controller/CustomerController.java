@@ -16,13 +16,13 @@ import com.spring.orderMgmnt.entity.Customer;
 import com.spring.orderMgmnt.service.CustomerService;
 
 @RestController
-@RequestMapping("/v1/customer")
+@RequestMapping("/api/v1/customer")
 public class CustomerController {
 	
 	@Autowired
 	private CustomerService customerService;
 	
-	@PostMapping("/create-employee")
+	@PostMapping("/create-customer")
 	public ResponseEntity<?> createCustomer(@RequestBody Customer customer){
 		try {
 			return ResponseEntity.ok(customerService.createCustomer(customer));
@@ -42,17 +42,18 @@ public class CustomerController {
 		}
 	}
 	
-	@GetMapping("/get-employee/{id}")
+	@GetMapping("/get-customer/{id}")
 	public ResponseEntity<?> getCustomer(@PathVariable(name = "id") int id){
 		try {
-			return ResponseEntity.ok(customerService.getCustomer(id));
+			return ResponseEntity.ok(customerService.getCustomer(id)==null
+					?"User not found":customerService.getCustomer(id));
 		}catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null,HttpStatus.FORBIDDEN);
 		}
 	}
 	
-	@GetMapping("/get-employee")
+	@GetMapping("/get-customers")
 	public ResponseEntity<?> getAllCustomer(){
 		try {
 			return ResponseEntity.ok(customerService.getAllCustomer());
@@ -62,7 +63,7 @@ public class CustomerController {
 		}
 	}
 	
-	@DeleteMapping("/delete-employee/{id}")
+	@DeleteMapping("/delete-customer/{id}")
 	public ResponseEntity<?> deleteCustomer(@PathVariable(name = "id") int id){
 		try {
 			return ResponseEntity.ok(customerService.deleteCustomer(id));

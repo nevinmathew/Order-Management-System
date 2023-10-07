@@ -1,19 +1,20 @@
 package com.spring.orderMgmnt.service;
 
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import com.spring.orderMgmnt.entity.Order;
 
 public interface OrderService {
 
-	ResponseEntity<?> createOrder(Order order);
+	CompletableFuture<?> createOrder(Order order);
 
-	ResponseEntity<?> updateOrder(Order order);
+	CompletableFuture<?> updateOrder(Order order);
 
-	ResponseEntity<?> getOrder(int id);
+	CompletableFuture<?> getOrder(int id);
 
-	ResponseEntity<?> getAllOrders();
+	List<Order> getAllOrders();
 
-	ResponseEntity<?> deleteOrder(int id);
+	String deleteOrder(int id);
 
 }

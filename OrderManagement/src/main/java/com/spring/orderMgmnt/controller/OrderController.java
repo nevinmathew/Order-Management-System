@@ -16,7 +16,7 @@ import com.spring.orderMgmnt.entity.Order;
 import com.spring.orderMgmnt.service.OrderService;
 
 @RestController
-@RequestMapping("/v1/orders")
+@RequestMapping("/api/v1/orders")
 public class OrderController {
 	
 	@Autowired
