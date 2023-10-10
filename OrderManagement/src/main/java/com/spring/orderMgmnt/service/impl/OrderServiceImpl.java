@@ -45,7 +45,10 @@ public class OrderServiceImpl implements OrderService {
 	            if (order.getQuantity() <= 0 || !customer.isPresent()) {
 	                return "Invalid order details";
 	            }
-
+		
+		order.setDiscountClaimed(false);
+                orderRepository.save(order);
+		
                 int ordersNo = customer.get().getNoOfOrders();
                 customer.get().setNoOfOrders(++ordersNo);
                 customerService.updateCustomer(customer.get());
