@@ -5,7 +5,18 @@
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
-This is a Spring boot application for an order management system that as the following functionalities:
+## Table of Contents
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Configuration](#configuration)
+
+## Getting Started
+To run the Order Management System, build and run the Spring Boot application using Maven:
+   ```sh
+   mvn spring-boot:run```
+
+## Usage
+The Order Management System offers the following functionalities:
 
   ● Create customers.
 
@@ -33,3 +44,21 @@ This is a Spring boot application for an order management system that as the fol
   
   ● Spring boot actuator for monitoring, gathering metrics, understanding traffic, and know the state of our database
  
+### Example API Documentation:
+
+    Swagger UI for API documentation and designing is available at http://localhost:8080/swagger-ui/index.html.
+
+## Configuration
+### `ApplicationStartup` Configuration
+
+The ApplicationStartup configuration provides information about the network availability of your application. It prints the application's network access URL when the application starts.
+
+### `AsyncConfiguration` Configuration
+
+The AsyncConfiguration configuration sets up an executor for handling asynchronous tasks in the application. It specifies the core pool size, maximum pool size, and other settings for handling asynchronous tasks.
+
+### `OpenAPIConfiguration` Configuration
+
+The OpenAPIConfiguration configuration is used to customize the OpenAPI documentation for your application. It sets the application's title, version, description, terms of service, and licensing information for the Swagger API documentation.
+
+These configurations are important for the proper functioning and documentation of your application. Make sure to include them in your project and customize them according to your needs.
