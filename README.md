@@ -13,7 +13,7 @@
 ## Getting Started
 To run the Order Management System, build and run the Spring Boot application using Maven:
    ```sh
-   mvn spring-boot:run```
+   mvn spring-boot:run
 
 ## Usage
 The Order Management System offers the following functionalities:
