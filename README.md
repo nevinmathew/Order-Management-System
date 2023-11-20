@@ -1,14 +1,18 @@
 # Order-Management-System
 
+
+
+## Table of Contents
+- [Languages and Tools](#languages-and-tools)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Configuration](#configuration)
+
+## Languages and Tools
 [![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com/)
 [![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/)
 [![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)](https://swagger.io/)
-
-## Table of Contents
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Configuration](#configuration)
 
 ## Getting Started
 To run the Order Management System, build and run the Spring Boot application using Maven:
