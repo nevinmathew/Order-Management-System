@@ -1,6 +1,7 @@
 # Order-Management-System
+This Spring-based Order Management System is designed to streamline and enhance the order processing workflow for businesses. The system allows the creation, update, retrieval, and deletion of customer orders, incorporating features such as asynchronous order processing and customer tier management.
 
-
+This application is tailored for businesses operating in the e-commerce domain or any industry that involves managing customer orders. It provides a robust framework for efficiently handling customer orders, tracking order details, and managing customer information.
 
 ## Table of Contents
 - [Languages and Tools](#languages-and-tools)
